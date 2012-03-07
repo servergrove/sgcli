@@ -1,0 +1,28 @@
+{
+    "name": "servergrove/sgcli",
+    "description": "ServerGrove CLI",
+    "keywords": ["servergrove", "cli", "vps"],
+    "homepage": "http://servergrove.com/",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pablo Godel",
+            "email": "pablo@servergrove.com",
+            "homepage": "http://twitter.com/pgodel"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "symfony/console": "dev-master",
+        "symfony/finder": "dev-master",
+        "symfony/process": "dev-master"
+    },
+    "recommend": {
+        "ext-zip": "*"
+    },
+    "autoload": {
+        "psr-0": { "ServerGrove": "src/" }
+    },
+    "bin": ["bin/sgcli"]
+}
