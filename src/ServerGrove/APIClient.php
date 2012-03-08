@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of sgcli.
+ *
+ * (c) ServerGrove
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+
 namespace ServerGrove;
 
 class APIClient
@@ -150,6 +160,11 @@ class APIClient
         return $this->args;
     }
 
+    public function getArg($id)
+    {
+        return isset($this->args[$id]) ? $this->args[$id] : null;
+    }
+
     public function setArg($name, $value)
     {
         $this->args[$name] = $value;
@@ -161,9 +176,19 @@ class APIClient
         return $this->setArg('apiKey', $value);
     }
 
+    public function getApiKey()
+    {
+        return $this->getArg('apiKey');
+    }
+
     public function setApiSecret($value)
     {
         return $this->setArg('apiSecret', $value);
+    }
+
+    public function getApiSecret()
+    {
+        return $this->getArg('apiSecret');
     }
 
     public function dryRun($value = 1)

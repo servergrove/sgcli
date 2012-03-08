@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of sgcli.
+ *
+ * (c) ServerGrove
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace ServerGrove\Cli\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -7,9 +16,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use ServerGrove\APIClient;
+use ServerGrove\Cli\Console\Application;
 
 class ShellCommand extends Command
 {
+    /**
+     * @var APIClient
+     */
     private $client;
     private $input;
     private $output;
@@ -29,24 +42,24 @@ class ShellCommand extends Command
 
     private $commands = array(
         //'list',
-        '.',
-        'x',
-        'q',
-        'help',
-        'exit',
-        'servers',
-        'server',
-        'domains',
-        'domain',
-        'apps',
-        'app',
-        'reboot',
-        'shutdown',
-        'bootup',
-        'restart',
-        'stop',
-        'start',
-        'exec',
+        '.' => 'Repeat last command.',
+        'x' => 'Reset internal buffers.',
+        'help' => 'Print this help.',
+        'quit' => 'Quit shell.',
+        'servers' => 'List servers',
+        'server' => 'Select a server. You can specify the server name, part of a name to search for, or a numeric option from the list of servers.',
+        'domains' => 'List domains under selected server. You can pass the server name to get the domains under a server.',
+        'domain' => 'Select a domain. You can specify the domain name, part of a name to search for, or a numeric option from the list of domains.',
+        'apps' => 'List applications under selected server. You can pass the server name to get the apps under a server.',
+        'app' => 'Select an app. You can specify the app name, part of a name to search for, or a numeric option from the list of apps.',
+        'reboot' => 'Reboot a server. If no server name is given, it will reboot the selected server. It will ask for confirmation.',
+        'shutdown'=> 'Shutdown a server. If no server name is given, it will shutdown the selected server. It will ask for confirmation.',
+        'bootup' => 'Boot up a server. If no server name is given, it will boot the selected server. It will ask for confirmation.',
+        'restart' => 'Restart an application. It will ask for confirmation.',
+        'stop' => 'Stop an application. It will ask for confirmation.',
+        'start' => 'Start an application.',
+        'exec' => 'Execute a command in the server',
+        'login' => 'Login with a different set of credentials',
     );
 
     protected function configure()
@@ -92,8 +105,68 @@ class ShellCommand extends Command
         $this->runShell();
     }
 
+    protected function getLoginFromUser()
+    {
+        $dialog = $this->getHelperSet()->get('dialog');
+
+        if ($dialog->askConfirmation($this->output, $dialog->getQuestion('Would you like login with your credentials', 'yes', '?'), true)) {
+
+            $this->client->setApiKey(null);
+            $this->client->setApiSecret(null);
+
+            $email = $dialog->askAndValidate($this->output, "Enter your Control Panel Email: ", function($value) {
+                if (null === $value) {
+                    throw new \Exception("Please enter a valid email address");
+                }
+                return $value;
+            });
+
+            $passwd = $dialog->askAndValidate($this->output, "Enter your Control Panel Password: ", function($value) {
+                if (null === $value) {
+                    throw new \Exception("Please enter your password");
+                }
+                return $value;
+            });
+
+            $this->output->write("<info>Authenticating...</info>");
+            $res = $this->call('authentication/getLoggedUser', array(
+                'apiUsername' => $email,
+                'apiPassword' => $passwd,
+            ));
+
+            if (!$res) {
+                $this->output->writeln("Authentication failed. Please check your credentials and try again.");
+                die(1);
+            }
+
+            $this->output->writeln(" <info>OK!</info>");
+
+
+            $this->client->setArg('apiUsername', $email);
+            $this->client->setArg('apiPassword', $passwd);
+        }
+
+    }
     protected function runShell()
     {
+        $this->output->writeln("ServerGrove Command Line Interface Shell\n");
+
+        if ($this->client->getApiKey() == Application::DEMO_API_KEY) {
+            $this->output->writeln("<comment>Warning: You are connecting with the demo account.</comment>\n");
+
+            $this->output->writeln("You can store your API Key and Secret in the environment variables SG_API_KEY and SG_API_SECRET to skip the login questions.
+            Example:
+            $ export SG_API_KEY=yourkey
+            $ export SG_API_SECRET=yoursecret
+            ");
+
+            $this->getLoginFromUser();
+        }
+
+        $this->executeServers(array());
+        if (count($this->servers) == 1) {
+            $this->executeServer(array(1));
+        }
         while (true) {
             $command = $this->readline($this->getPrompt());
 
@@ -101,18 +174,26 @@ class ShellCommand extends Command
                 case 'help':
                 case 'h':
                 case '?':
-                    $this->output->writeln('Help:');
-                    foreach($this->commands as $cmd) {
-                        $this->output->writeln('   '.$cmd );
-                    }
+                    $this->executeHelp();
                     break;
                 case 'exit':
                 case 'quit':
                     $this->output->writeln("Exiting, goodbye!");
                     break 2;
+                case 'login':
+                    $this->getLoginFromUser();
+                    break;
                 default:
                     $this->processCommand($command);
             }
+        }
+    }
+
+    protected function executeHelp($args=null)
+    {
+        $this->output->writeln('Help:');
+        foreach($this->commands as $cmd => $help) {
+            $this->output->writeln('   <info>'.str_pad($cmd, 8).'</info> '.$help );
         }
     }
 
@@ -129,7 +210,7 @@ class ShellCommand extends Command
         }
 
 
-        foreach($this->commands as $cmd) {
+        foreach($this->commands as $cmd => $help) {
             if (strpos($command, $cmd) === 0) {
                 $method = 'execute'.lcfirst(str_replace(' ', '', $cmd));
                 if (false === $argStr = substr($command, strlen($cmd))) {
@@ -146,7 +227,8 @@ class ShellCommand extends Command
             }
         }
 
-        $this->error('Unrecognized command');
+        $this->error('Unrecognized command.');
+        $this->executeHelp();
     }
 
     protected function getPrompt($msg = '$ ')

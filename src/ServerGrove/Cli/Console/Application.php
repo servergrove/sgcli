@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of sgcli.
  *
@@ -20,23 +19,26 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Finder\Finder;
 use ServerGrove\Cli\Command;
 use ServerGrove\APIClient;
+use ServerGrove\Cli\Command\Helper\DialogHelper;
 
 /**
  * The console application that handles the commands
  *
+ * @author Pablo Godel <pablo@servergrove.com>
  * @author Ryan Weaver <ryan@knplabs.com>
  * @author Jordi Boggiano <j.boggiano@seld.be>
  * @author François Pluchino <francois.pluchino@opendisplay.com>
  */
 class Application extends BaseApplication
 {
-    /**
-     * @var APIClient
-     */
-    protected $client;
     const URL = 'https://control.servergrove.com';
     const DEMO_API_KEY = '38d25347692ce2bebd5035678e46cf1e';
     const DEMO_API_SECRET = '175d6c3a657e10bb7b5b21fc2b6b1a28';
+
+    /**
+     * @var APIClient
+     */
+    private $client;
 
     public function __construct()
     {
@@ -69,21 +71,20 @@ class Application extends BaseApplication
     }
 
     /**
-     * @return Composer
+     * @return APIClient
      */
     public function getClient()
     {
         if (null === $this->client) {
             $this->client = new APIClient(self::URL);
-            $this->client->setApiKey(self::DEMO_API_KEY);
-            $this->client->setApiSecret(self::DEMO_API_SECRET);
+            $this->client->setApiKey(isset($_SERVER['SG_API_KEY']) ? $_SERVER['SG_API_KEY'] : self::DEMO_API_KEY);
+            $this->client->setApiSecret(isset($_SERVER['SG_API_SECRET']) ? $_SERVER['SG_API_SECRET'] :self::DEMO_API_SECRET);
         }
-
         return $this->client;
     }
 
     /**
-     * Initializes all the composer commands
+     * Initializes all commands
      */
     protected function registerCommands()
     {
@@ -91,4 +92,15 @@ class Application extends BaseApplication
         $this->add(new Command\ShellCommand());
     }
 
+    /**
+       * {@inheritDoc}
+       */
+      protected function getDefaultHelperSet()
+      {
+          $helperSet = parent::getDefaultHelperSet();
+
+          $helperSet->set(new DialogHelper());
+
+          return $helperSet;
+      }
 }

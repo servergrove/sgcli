@@ -17,6 +17,7 @@ use Symfony\Component\Process\Process;
 /**
  * The Compiler class compiles sgcli into a phar
  *
+ * @author Pablo Godel <pablo@servergrove.com>
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */

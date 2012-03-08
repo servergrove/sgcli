@@ -16,8 +16,6 @@ use Symfony\Component\Console\Command\Command as BaseCommand;
 /**
  * Base class for sgcli commands
  *
- * @author Ryan Weaver <ryan@knplabs.com>
- * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 abstract class Command extends BaseCommand
 {
@@ -28,4 +26,5 @@ abstract class Command extends BaseCommand
     {
         return $this->getApplication()->getClient();
     }
+
 }

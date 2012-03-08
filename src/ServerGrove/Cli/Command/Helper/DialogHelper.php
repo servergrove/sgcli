@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Composer.
+ * This file is part of sgcli.
  *
  * (c) Nils Adermann <naderman@naderman.de>
  *     Jordi Boggiano <j.boggiano@seld.be>
@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Composer\Command\Helper;
+namespace ServerGrove\Cli\Command\Helper;
 
 use Symfony\Component\Console\Helper\DialogHelper as BaseDialogHelper;
 use Symfony\Component\Console\Output\OutputInterface;
