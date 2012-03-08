@@ -13,7 +13,7 @@ user profile.
 
 ## Installation:
 
-Download [`sgcli.phar`](http:///sgcli.phar) executable.
+Download [`sgcli.phar`](http:///sgcli.phar) executable and place it in a directory in your PATH.
 
 Make sure sgcli.phar has executable permissions or use with php sgcli.phar
 
