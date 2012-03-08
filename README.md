@@ -13,6 +13,8 @@ user profile.
 
 ## Installation:
 
+You will need PHP 5.3
+
 Download [`sgcli.phar`](https://github.com/servergrove/sgcli/raw/master/sgcli.phar) executable and place it in a directory in your PATH.
 
 Make sure sgcli.phar has executable permissions or use with php sgcli.phar
