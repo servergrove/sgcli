@@ -82,3 +82,14 @@ Commands:
 * [ServerGrove Knowledge Base](https://secure.servergrove.com/clients)
 * [Follow ServerGrove @ Twitter](http://twitter.com/servergrove)
 * [GitHub Downloads](http://github.com/servergrove)
+
+## TODO & Contributions
+
+We have a bunch of features we want to add. If you have any cool ideas feel free to send us suggestions or even Pull Requests. This is a Github project, so anybody can fork it and extend it!
+
+We love PRs!
+
+## Credits
+
+* Fabien Potencier for the awesome Symfony Components.
+* The Composer team for inspiration on the Application code and the phar file compiler.
