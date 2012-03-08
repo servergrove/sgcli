@@ -5,6 +5,7 @@ The utility allows interaction with the ServerGrove Control Panel through the co
 The following command line tools are provided:
 
 * API client Command Line Interface
+* Interactive Shell
 
 The API client CLI allows to connect to the ServerGrove Control Panel through a HTTP API. To connect to the API you will
 need to be a registered customer with access to the Control Panel and API, and you will need to enable API access in the
