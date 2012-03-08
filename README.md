@@ -30,6 +30,7 @@ Once you have the API key and secret, add it to your environment variables:
 		$ export SG_API_KEY=yourkey
 		$ export SG_API_SECRET=yoursecret
 
+* For *nix add these two lines to your user's ~/.profile
 
 ## Usage:
 

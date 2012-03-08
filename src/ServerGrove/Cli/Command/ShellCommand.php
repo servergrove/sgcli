@@ -41,7 +41,6 @@ class ShellCommand extends Command
     private $lastCommand = null;
 
     private $commands = array(
-        //'list',
         '.' => 'Repeat last command.',
         'x' => 'Reset internal buffers.',
         'help' => 'Print this help.',
@@ -158,6 +157,8 @@ class ShellCommand extends Command
             Example:
             $ export SG_API_KEY=yourkey
             $ export SG_API_SECRET=yoursecret
+
+            For addtional help visit https://github.com/servergrove/sgcli
             ");
 
             $this->getLoginFromUser();
@@ -193,7 +194,7 @@ class ShellCommand extends Command
     {
         $this->output->writeln('Help:');
         foreach($this->commands as $cmd => $help) {
-            $this->output->writeln('   <info>'.str_pad($cmd, 8).'</info> '.$help );
+            $this->output->writeln(' <info>'.str_pad($cmd, 8).'</info> '.$help );
         }
     }
 
@@ -250,11 +251,6 @@ class ShellCommand extends Command
         return $prompt.$msg;
     }
 
-    protected function executeList($args)
-    {
-        print_r($args);
-    }
-
     protected function executeServer($args)
     {
         $this->selectServer($args[0]);
@@ -303,7 +299,7 @@ class ShellCommand extends Command
         }
 
         $this->server = null;
-        $this->error("Server not found");
+        $this->error("Server not found. Try listing all servers with the command 'servers'.");
         return false;
     }
 
@@ -348,7 +344,7 @@ class ShellCommand extends Command
         }
 
         $this->domain = null;
-        $this->error("Domain not found");
+        $this->error("Domain not found. Try listing all domains with the command 'domains'.");
         return false;
     }
 
@@ -392,7 +388,7 @@ class ShellCommand extends Command
            }
 
            $this->app = null;
-           $this->error("App not found");
+           $this->error("Application not found. Try listing all applications with the command 'apps'.");
            return false;
        }
 
@@ -407,7 +403,7 @@ class ShellCommand extends Command
     {
         $this->servers = array();
 
-        $this->info("Loading servers...");
+        $this->info("Fetching list of servers...");
 
         if (!$res = $this->call('server/list', array())) {
             return false;
@@ -434,7 +430,7 @@ class ShellCommand extends Command
 
         $this->domains = array();
 
-        $this->info("Loading domains...");
+        $this->info("Fetching list of domains...");
         if (!$res = $this->call('domain/list', array('serverId' => $serverId))) {
             return false;
         }
@@ -460,7 +456,7 @@ class ShellCommand extends Command
 
         $this->apps = array();
 
-        $this->info("Loading apps...");
+        $this->info("Ftching list of apps...");
         if (!$res = $this->call('app/list', array('serverId' => $serverId))) {
             return false;
         }
@@ -585,7 +581,7 @@ class ShellCommand extends Command
 
         if (!$this->server) {
             if (!$this->selectServer()) {
-                return $this->error('No server selected');
+                return $this->error("No server selected. Please select a server with 'server [name]'.");
             }
         }
 
@@ -613,7 +609,7 @@ class ShellCommand extends Command
 
         if (!$this->server) {
             if (!$this->selectServer()) {
-                return $this->error('No server selected');
+                return $this->error("No server selected. Please select a server with 'server [name]'.");
             }
         }
 
@@ -637,7 +633,7 @@ class ShellCommand extends Command
     {
         if (!$this->server) {
             if (!$this->selectServer()) {
-                return $this->error('No server selected');
+                return $this->error("No server selected. Please select a server with 'server [name]'.");
             }
         }
 
@@ -656,7 +652,7 @@ class ShellCommand extends Command
 
         if (!$this->server) {
             if (!$this->selectServer()) {
-                return $this->error('No server selected');
+                return $this->error("No server selected. Please select a server with 'server [name]'.");
             }
         }
 
@@ -693,7 +689,7 @@ class ShellCommand extends Command
 
         if (!$this->server) {
             if (!$this->selectServer()) {
-                return $this->error('No server selected');
+                return $this->error("No server selected. Please select a server with 'server [name]'.");
             }
         }
 
@@ -730,7 +726,7 @@ class ShellCommand extends Command
 
         if (!$this->server) {
             if (!$this->selectServer()) {
-                return $this->error('No server selected');
+                return $this->error("No server selected. Please select a server with 'server [name]'.");
             }
         }
 
@@ -764,7 +760,7 @@ class ShellCommand extends Command
 
         if (!$this->server) {
             if (!$this->selectServer()) {
-                return $this->error('No server selected');
+                return $this->error("No server selected. Please select a server with 'server [name]'.");
             }
         }
 
@@ -785,7 +781,7 @@ class ShellCommand extends Command
 
         if (!$this->server) {
             if (!$this->selectServer()) {
-                return $this->error('No server selected');
+                return $this->error("No server selected. Please select a server with 'server [name]'.");
             }
         }
 
@@ -806,7 +802,7 @@ class ShellCommand extends Command
 
         if (!$this->server) {
             if (!$this->selectServer()) {
-                return $this->error('No server selected');
+                return $this->error("No server selected. Please select a server with 'server [name]'.");
             }
         }
 
@@ -829,7 +825,7 @@ class ShellCommand extends Command
 
     protected function error($msg)
     {
-        $this->output->writeln("Error: <error>".$msg."</error>\n");
+        $this->output->writeln("<error>".$msg."</error>\n");
         return false;
     }
 
