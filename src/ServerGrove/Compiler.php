@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace ServerGrove\Cli;
+namespace ServerGrove;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
@@ -68,16 +68,16 @@ class Compiler
         $finder->files()
             ->ignoreVCS(true)
             ->name('*.php')
-            ->in(__DIR__.'/../../../vendor/symfony/')
+            ->in(__DIR__.'/../../vendor/symfony/')
         ;
 
         foreach ($finder as $file) {
             $this->addFile($phar, $file);
         }
 
-        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../vendor/.composer/ClassLoader.php'));
-        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../vendor/.composer/autoload.php'));
-        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../vendor/.composer/autoload_namespaces.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../vendor/.composer/ClassLoader.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../vendor/.composer/autoload.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../vendor/.composer/autoload_namespaces.php'));
         $this->addBin($phar);
 
         // Stubs
@@ -88,7 +88,7 @@ class Compiler
         // disabled for interoperability with systems without gzip ext
         // $phar->compressFiles(\Phar::GZ);
 
-        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../../LICENSE'), false);
+        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../LICENSE'), false);
 
         unset($phar);
     }
@@ -106,13 +106,13 @@ class Compiler
         }
 
         $content = str_replace('@package_version@', $this->version, $content);
-
+echo "$path\n";
         $phar->addFromString($path, $content);
     }
 
     private function addBin($phar)
     {
-        $content = file_get_contents(__DIR__.'/../../../bin/sgcli');
+        $content = file_get_contents(__DIR__.'/../../bin/sgcli');
         $content = preg_replace('{^#!/usr/bin/env php\s*}', '', $content);
         $phar->addFromString('bin/sgcli', $content);
     }

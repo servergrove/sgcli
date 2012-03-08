@@ -7,8 +7,6 @@ if ((!@include __DIR__.'/../../../.composer/autoload.php') && (!@include __DIR__
         'php composer.phar install'.PHP_EOL);
 }
 
-//use ServerGrove\Cli\Console\Application;
-
 // run the command application
 $application = new \ServerGrove\Cli\Console\Application();
 $application->run();
