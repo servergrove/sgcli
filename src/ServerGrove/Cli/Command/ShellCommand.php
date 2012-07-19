@@ -58,6 +58,7 @@ class ShellCommand extends Command
         'stop' => 'Stop an application. It will ask for confirmation.',
         'start' => 'Start an application.',
         'exec' => 'Execute a command in the server',
+        'discover' => 'Sends a discover request to server, which will update server and apps information.',
         'login' => 'Login with a different set of credentials',
     );
 
@@ -638,6 +639,39 @@ class ShellCommand extends Command
         }
 
         $this->serverExec(implode(' ', $args));
+
+        return true;
+    }
+
+    protected function executeDiscover($args)
+    {
+        if (count($args) == 1) {
+            if (!$this->selectServer($args[0])) {
+                return false;
+            }
+        }
+
+        if (!$this->server) {
+            if (!$this->selectServer()) {
+                return $this->error("No server selected. Please select a server with 'server [name]'.");
+            }
+        }
+
+        $serverId = $this->server['id'];
+
+        $this->info("Sending request...");
+        if (!$res = $this->call('server/discover', array(
+            'serverId' => $serverId,
+            'async' => 0,
+            ))) {
+            return false;
+        }
+
+        if (false === $rsp = $this->client->getResponse(APIClient::FORMAT_ARRAY)) {
+            return false;
+        }
+
+        $this->output->writeln('Done.');
 
         return true;
     }
