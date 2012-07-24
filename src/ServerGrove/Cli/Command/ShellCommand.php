@@ -457,7 +457,7 @@ class ShellCommand extends Command
 
         $this->apps = array();
 
-        $this->info("Ftching list of apps...");
+        $this->info("Fetching list of apps...");
         if (!$res = $this->call('app/list', array('serverId' => $serverId))) {
             return false;
         }
