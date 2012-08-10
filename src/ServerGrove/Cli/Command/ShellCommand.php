@@ -159,7 +159,7 @@ class ShellCommand extends Command
             $ export SG_API_KEY=yourkey
             $ export SG_API_SECRET=yoursecret
 
-            For addtional help visit https://github.com/servergrove/sgcli
+            For additional help visit https://github.com/servergrove/sgcli
             ");
 
             $this->getLoginFromUser();
@@ -847,7 +847,6 @@ class ShellCommand extends Command
     {
        $this->output->write($prompt);
        $out = "";
-       $key = "";
        $key = fgetc(STDIN);        //read from standard input (keyboard)
        while ($key!="\n")        //if the newline character has not yet arrived read another
        {
