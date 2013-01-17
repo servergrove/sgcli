@@ -1,0 +1,19 @@
+SGCli version 0.1
+
+Usage:
+  [options] command [arguments]
+
+Options:
+  --help           -h Display this help message.
+  --quiet          -q Do not output any message.
+  --verbose        -v Increase verbosity of messages.
+  --version        -V Display this application version.
+  --ansi              Force ANSI output.
+  --no-ansi           Disable ANSI output.
+  --no-interaction -n Do not ask any interactive question.
+
+Available commands:
+  client   Executes a call to the ServerGrove Control Panel API. For more information visit https://control.servergrove.com/docs/api
+  help     Displays help for a command
+  list     Lists commands
+  shell    Provides a shell for the ServerGrove Control Panel API. For more information visit https://control.servergrove.com/docs/api
