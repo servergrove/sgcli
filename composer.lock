@@ -1,35 +1,30 @@
 {
-    "hash": "44c1884c3baeb08d3cbbabb029a9911f",
+    "hash": "322a20b90e6fe67b1aeee636afb6a772",
     "packages": [
         {
             "name": "symfony/console",
-            "version": "dev-master",
+            "version": "v2.1.6",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console",
-                "reference": "b76fc0d327cb8d90ef0d685f3d696dab714b8327"
+                "reference": "v2.1.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Console/archive/b76fc0d327cb8d90ef0d685f3d696dab714b8327.zip",
-                "reference": "b76fc0d327cb8d90ef0d685f3d696dab714b8327",
+                "url": "https://github.com/symfony/Console/archive/v2.1.6.zip",
+                "reference": "v2.1.6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2013-01-17 15:25:59",
+            "time": "2012-12-13 17:42:00",
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.2-dev"
-                }
-            },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\Console\\": ""
+                    "Symfony\\Component\\Console": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -51,33 +46,28 @@
         },
         {
             "name": "symfony/finder",
-            "version": "dev-master",
+            "version": "v2.1.6",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder",
-                "reference": "38c5c02ee21e219febd62438140ee6c95dba861d"
+                "reference": "v2.1.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Finder/archive/38c5c02ee21e219febd62438140ee6c95dba861d.zip",
-                "reference": "38c5c02ee21e219febd62438140ee6c95dba861d",
+                "url": "https://github.com/symfony/Finder/archive/v2.1.6.zip",
+                "reference": "v2.1.6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2013-01-17 15:25:59",
+            "time": "2012-12-10 12:46:54",
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.2-dev"
-                }
-            },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\Finder\\": ""
+                    "Symfony\\Component\\Finder": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -99,33 +89,28 @@
         },
         {
             "name": "symfony/process",
-            "version": "dev-master",
+            "version": "v2.1.6",
             "target-dir": "Symfony/Component/Process",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process",
-                "reference": "dace2b9abb058b8d40452f8ab4532db8e4d273db"
+                "reference": "v2.1.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Process/archive/dace2b9abb058b8d40452f8ab4532db8e4d273db.zip",
-                "reference": "dace2b9abb058b8d40452f8ab4532db8e4d273db",
+                "url": "https://github.com/symfony/Process/archive/v2.1.6.zip",
+                "reference": "v2.1.6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2013-01-17 15:25:59",
+            "time": "2012-12-19 13:27:19",
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.2-dev"
-                }
-            },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\Process\\": ""
+                    "Symfony\\Component\\Process": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -146,14 +131,104 @@
             "homepage": "http://symfony.com"
         }
     ],
-    "packages-dev": null,
+    "packages-dev": [
+        {
+            "name": "fabpot/php-cs-fixer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fabpot/PHP-CS-Fixer.git",
+                "reference": "2377b9ea383ac7939e563c3dd6ee2be9ee2d3183"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/fabpot/PHP-CS-Fixer/archive/2377b9ea383ac7939e563c3dd6ee2be9ee2d3183.zip",
+                "reference": "2377b9ea383ac7939e563c3dd6ee2be9ee2d3183",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/console": "2.1.*",
+                "symfony/filesystem": "2.1.*",
+                "symfony/finder": "2.1.*",
+                "php": ">=5.3.3"
+            },
+            "time": "2013-01-04 16:55:35",
+            "bin": [
+                "php-cs-fixer"
+            ],
+            "type": "application",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1.x-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\CS": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "A script to automatically fix Symfony Coding Standard"
+        },
+        {
+            "name": "symfony/filesystem",
+            "version": "v2.1.6",
+            "target-dir": "Symfony/Component/Filesystem",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Filesystem",
+                "reference": "v2.1.6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/symfony/Filesystem/archive/v2.1.6.zip",
+                "reference": "v2.1.6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "time": "2012-12-11 10:40:22",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Filesystem": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Filesystem Component",
+            "homepage": "http://symfony.com"
+        }
+    ],
     "aliases": [
 
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "symfony/console": 20,
-        "symfony/finder": 20,
-        "symfony/process": 20
+        "fabpot/php-cs-fixer": 20
     }
 }
