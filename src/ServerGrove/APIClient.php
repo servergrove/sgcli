@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace ServerGrove;
 
 class APIClient
@@ -37,7 +36,7 @@ class APIClient
     /**
      * Executes API Call. Returns true|false depending on the api response. use getResponse() to retrieve response.
      * @param $call
-     * @param array $args
+     * @param  array      $args
      * @return bool
      * @throws \Exception
      */
@@ -60,6 +59,7 @@ class APIClient
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
         $this->response = curl_exec($ch);
         curl_close($ch);
+
         return $this->isSuccess($this->response);
     }
 
@@ -84,7 +84,6 @@ class APIClient
     {
         return $this->response;
     }
-
 
     public function isSuccess($result=null)
     {
@@ -126,10 +125,10 @@ class APIClient
         return $result && $result->msg ? $result->msg : 'Unknown error';
     }
 
-
     public function setFormat($format)
     {
         $this->format = $format;
+
         return $this;
     }
 
@@ -141,6 +140,7 @@ class APIClient
     public function setUrl($url)
     {
         $this->url = $url;
+
         return $this;
     }
 
@@ -152,6 +152,7 @@ class APIClient
     public function setArgs($args)
     {
         $this->args = $args;
+
         return $this;
     }
 
@@ -168,6 +169,7 @@ class APIClient
     public function setArg($name, $value)
     {
         $this->args[$name] = $value;
+
         return $this;
     }
 

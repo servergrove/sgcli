@@ -13,7 +13,6 @@ namespace ServerGrove\Cli\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
 class ClientCommand extends Command
@@ -24,11 +23,11 @@ class ClientCommand extends Command
         parent::configure();
 
         $this
-                ->setName('client')
-                ->setDescription("Executes a call to the ServerGrove Control Panel API. For more information visit https://control.servergrove.com/docs/api")
-                ->addArgument('call', InputArgument::REQUIRED, 'API Call')
-                ->addArgument('args', InputArgument::OPTIONAL, 'API Arguments')
-                ->addOption('url', null, null, 'API URL')
+            ->setName('client')
+            ->setDescription("Executes a call to the ServerGrove Control Panel API. For more information visit https://control.servergrove.com/docs/api")
+            ->addArgument('call', InputArgument::REQUIRED, 'API Call')
+            ->addArgument('args', InputArgument::OPTIONAL, 'API Arguments')
+            ->addOption('url', null, null, 'API URL')
         ;
     }
 
@@ -53,6 +52,7 @@ class ClientCommand extends Command
         parse_str($argStr, $args);
 
         $apiclient = $this->getClient();
+
         /* @var $apiclient \ServerGrove\APIClient */
         if ($options['url']) {
             $apiclient->setUrl($options['url']);
@@ -68,6 +68,7 @@ class ClientCommand extends Command
             } else {
                 $output->writeln($apiclient->getRawResponse());
             }
+
             return 0;
         } else {
             if ($options['verbose']) {
@@ -75,9 +76,9 @@ class ClientCommand extends Command
             } else {
                 $output->writeln($apiclient->getRawResponse());
             }
+
             return 1;
         }
     }
-
 
 }
