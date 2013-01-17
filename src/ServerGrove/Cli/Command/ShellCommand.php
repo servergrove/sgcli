@@ -13,7 +13,6 @@ namespace ServerGrove\Cli\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use ServerGrove\APIClient;
 use ServerGrove\Cli\Console\Application;
@@ -67,10 +66,10 @@ class ShellCommand extends Command
         parent::configure();
 
         $this
-                ->setName('shell')
-                ->setDescription("Provides a shell for the ServerGrove Control Panel API. For more information visit https://control.servergrove.com/docs/api")
-                ->addArgument('args', InputArgument::OPTIONAL, 'API Arguments')
-                ->addOption('url', null, null, 'API URL')
+            ->setName('shell')
+            ->setDescription("Provides a shell for the ServerGrove Control Panel API. For more information visit https://control.servergrove.com/docs/api")
+            ->addArgument('args', InputArgument::OPTIONAL, 'API Arguments')
+            ->addOption('url', null, null, 'API URL')
         ;
     }
 
@@ -97,6 +96,7 @@ class ShellCommand extends Command
         parse_str($argStr, $this->args);
 
         $this->client = $this->getClient();
+
         /* @var $apiclient \ServerGrove\APIClient */
         if ($this->options['url']) {
             $this->client->setUrl($this->options['url']);
@@ -118,6 +118,7 @@ class ShellCommand extends Command
                 if (null === $value) {
                     throw new \Exception("Please enter a valid email address");
                 }
+
                 return $value;
             });
 
@@ -125,6 +126,7 @@ class ShellCommand extends Command
                 if (null === $value) {
                     throw new \Exception("Please enter your password");
                 }
+
                 return $value;
             });
 
@@ -140,7 +142,6 @@ class ShellCommand extends Command
             }
 
             $this->output->writeln(" <info>OK!</info>");
-
 
             $this->client->setArg('apiUsername', $email);
             $this->client->setArg('apiPassword', $passwd);
@@ -172,7 +173,7 @@ class ShellCommand extends Command
         while (true) {
             $command = $this->readline($this->getPrompt());
 
-            switch($command) {
+            switch ($command) {
                 case 'help':
                 case 'h':
                 case '?':
@@ -194,7 +195,7 @@ class ShellCommand extends Command
     protected function executeHelp($args=null)
     {
         $this->output->writeln('Help:');
-        foreach($this->commands as $cmd => $help) {
+        foreach ($this->commands as $cmd => $help) {
             $this->output->writeln(' <info>'.str_pad($cmd, 8).'</info> '.$help );
         }
     }
@@ -211,8 +212,7 @@ class ShellCommand extends Command
             $command = $this->lastCommand;
         }
 
-
-        foreach($this->commands as $cmd => $help) {
+        foreach ($this->commands as $cmd => $help) {
             if (strpos($command, $cmd) === 0) {
                 $method = 'execute'.lcfirst(str_replace(' ', '', $cmd));
                 if (false === $argStr = substr($command, strlen($cmd))) {
@@ -224,6 +224,7 @@ class ShellCommand extends Command
                 if (method_exists($this, $method)) {
                     $this->lastCommand = $command;
                     $this->$method($args);
+
                     return;
                 }
             }
@@ -287,12 +288,12 @@ class ShellCommand extends Command
                 return $this->setServer($s);
             }
         } else {
-            foreach($this->servers as $idx => $server) {
+            foreach ($this->servers as $idx => $server) {
                 if ($server['hostname'] == $s) {
                     return $this->setServer($idx);
                 }
             }
-            foreach($this->servers as $idx => $server) {
+            foreach ($this->servers as $idx => $server) {
                 if (stripos($server['hostname'], $s) !== false) {
                     return $this->setServer($idx);
                 }
@@ -301,6 +302,7 @@ class ShellCommand extends Command
 
         $this->server = null;
         $this->error("Server not found. Try listing all servers with the command 'servers'.");
+
         return false;
     }
 
@@ -309,6 +311,7 @@ class ShellCommand extends Command
         $this->server = $this->servers[$server];
         $this->info("Selected server ".$this->server['hostname']);
         $this->reset(false);
+
         return true;
     }
 
@@ -332,12 +335,12 @@ class ShellCommand extends Command
                 return $this->setDomain($s);
             }
         } else {
-            foreach($this->domains as $idx => $dom) {
+            foreach ($this->domains as $idx => $dom) {
                 if ($dom['name'] == $s) {
                     return $this->setDomain($idx);
                 }
             }
-            foreach($this->domains as $idx => $dom) {
+            foreach ($this->domains as $idx => $dom) {
                 if (stripos($dom['name'], $s) !== false) {
                     return $this->setDomain($idx);
                 }
@@ -346,6 +349,7 @@ class ShellCommand extends Command
 
         $this->domain = null;
         $this->error("Domain not found. Try listing all domains with the command 'domains'.");
+
         return false;
     }
 
@@ -353,6 +357,7 @@ class ShellCommand extends Command
     {
         $this->domain = $this->domains[$domain];
         $this->info("Selected domain ".$this->domain['name']);
+
         return true;
     }
 
@@ -376,12 +381,12 @@ class ShellCommand extends Command
                    return $this->setApp($s);
                }
            } else {
-               foreach($this->apps as $idx => $app) {
+               foreach ($this->apps as $idx => $app) {
                    if ($app['name'] == $s) {
                        return $this->setApp($idx);
                    }
                }
-               foreach($this->apps as $idx => $app) {
+               foreach ($this->apps as $idx => $app) {
                    if (stripos($app['name'], $s) !== false) {
                        return $this->setApp($idx);
                    }
@@ -390,6 +395,7 @@ class ShellCommand extends Command
 
            $this->app = null;
            $this->error("Application not found. Try listing all applications with the command 'apps'.");
+
            return false;
        }
 
@@ -397,6 +403,7 @@ class ShellCommand extends Command
     {
         $this->app = $this->apps[$app];
         $this->info("Selected app ".$this->app['name']);
+
         return true;
     }
 
@@ -416,10 +423,11 @@ class ShellCommand extends Command
 
         $this->result = array();
         $i = 1;
-        foreach($rsp['rsp'] as $server) {
+        foreach ($rsp['rsp'] as $server) {
             $this->servers[$i] = $server;
             $i++;
         }
+
         return true;
     }
 
@@ -442,10 +450,11 @@ class ShellCommand extends Command
 
         $this->result = array();
         $i = 1;
-        foreach($rsp['rsp'] as $domain) {
+        foreach ($rsp['rsp'] as $domain) {
             $this->domains[$i] = $domain;
             $i++;
         }
+
         return true;
     }
 
@@ -469,10 +478,11 @@ class ShellCommand extends Command
         $this->result = array();
         $i = 1;
 
-        foreach($rsp['rsp'] as $app) {
+        foreach ($rsp['rsp'] as $app) {
             $this->apps[$i] = $app;
             $i++;
         }
+
         return true;
     }
 
@@ -560,7 +570,7 @@ class ShellCommand extends Command
                 return false;
             }
         }
-        foreach($this->servers as $i => $server) {
+        foreach ($this->servers as $i => $server) {
             $this->output->writeln(sprintf("$i. <info>%s</info> IP: <info>%s</info> Plan: <info>%s</info> %s",
                 str_pad($server['hostname'], 40),
                 str_pad($server['mainIpAddress'], 15),
@@ -591,7 +601,7 @@ class ShellCommand extends Command
                 return false;
             }
         }
-        foreach($this->domains as $i => $domain) {
+        foreach ($this->domains as $i => $domain) {
             $this->output->writeln(sprintf("$i. <info>%s</info>",
                 str_pad($domain['name'], 40)
             ));
@@ -619,7 +629,7 @@ class ShellCommand extends Command
                 return false;
             }
         }
-        foreach($this->apps as $i => $app) {
+        foreach ($this->apps as $i => $app) {
             $this->output->writeln(sprintf("$i. <info>%s</info> <info>%s</info> %s",
                 str_pad($app['name'], 15),
                 str_pad($app['version'], 10),
@@ -766,7 +776,6 @@ class ShellCommand extends Command
 
         $serverId = $this->server['id'];
 
-
         $this->info("Sending request...");
         if (!$res = $this->call('server/start', array(
             'serverId' => $serverId,
@@ -843,28 +852,30 @@ class ShellCommand extends Command
         return $this->appCall('svcStart');
     }
 
-    function readline($prompt="")
+    public function readline($prompt="")
     {
        $this->output->write($prompt);
        $out = "";
        $key = fgetc(STDIN);        //read from standard input (keyboard)
-       while ($key!="\n")        //if the newline character has not yet arrived read another
-       {
+       while ($key!="\n") {        //if the newline character has not yet arrived read another
            $out.= $key;
            $key = fread(STDIN, 1);
        }
+
        return $out;
     }
 
     protected function error($msg)
     {
         $this->output->writeln("<error>".$msg."</error>\n");
+
         return false;
     }
 
     protected function info($msg)
     {
         $this->output->writeln("<info>".$msg."</info>");
+
         return true;
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of sgcli.
  *
@@ -16,7 +17,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
-use Symfony\Component\Finder\Finder;
 use ServerGrove\Cli\Command;
 use ServerGrove\APIClient;
 use ServerGrove\Cli\Command\Helper\DialogHelper;
@@ -80,6 +80,7 @@ class Application extends BaseApplication
             $this->client->setApiKey(isset($_SERVER['SG_API_KEY']) ? $_SERVER['SG_API_KEY'] : self::DEMO_API_KEY);
             $this->client->setApiSecret(isset($_SERVER['SG_API_SECRET']) ? $_SERVER['SG_API_SECRET'] :self::DEMO_API_SECRET);
         }
+
         return $this->client;
     }
 
