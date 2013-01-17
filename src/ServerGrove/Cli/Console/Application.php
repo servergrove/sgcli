@@ -93,14 +93,14 @@ class Application extends BaseApplication
     }
 
     /**
-       * {@inheritDoc}
-       */
-      protected function getDefaultHelperSet()
-      {
-          $helperSet = parent::getDefaultHelperSet();
+     * {@inheritDoc}
+     */
+    protected function getDefaultHelperSet()
+    {
+        $helperSet = parent::getDefaultHelperSet();
 
-          $helperSet->set(new DialogHelper());
+        $helperSet->set(new DialogHelper());
 
-          return $helperSet;
-      }
+        return $helperSet;
+    }
 }
